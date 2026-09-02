@@ -4,10 +4,18 @@ import { Terminal as TerminalIcon, X, Check, ShieldAlert } from 'lucide-react';
 
 interface EasterEggTerminalProps {
   onUnlockAchievement: (title: string, desc: string) => void;
+  isOpenExternal?: boolean;
+  onCloseExternal?: () => void;
 }
 
-export default function EasterEggTerminal({ onUnlockAchievement }: EasterEggTerminalProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function EasterEggTerminal({ onUnlockAchievement, isOpenExternal, onCloseExternal }: EasterEggTerminalProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isOpen = isOpenExternal !== undefined ? isOpenExternal : internalOpen;
+  const setIsOpen = (val: boolean) => {
+    setInternalOpen(val);
+    if (!val && onCloseExternal) onCloseExternal();
+  };
+
   const [konamiProgress, setKonamiProgress] = useState<string[]>([]);
   const [history, setHistory] = useState<string[]>([
     'ETERNIVENTURES QUANTUM COMMAND LINE // ACTIVE',
@@ -17,6 +25,13 @@ export default function EasterEggTerminal({ onUnlockAchievement }: EasterEggTerm
   const [inputVal, setInputVal] = useState('');
   const [matrixActive, setMatrixActive] = useState(false);
   const terminalEndRef = useRef<HTMLDivElement>(null);
+
+  // Custom event listener for opening terminal from mobile dock or anywhere
+  useEffect(() => {
+    const handleOpenEvent = () => setInternalOpen(true);
+    window.addEventListener('open-terminal', handleOpenEvent);
+    return () => window.removeEventListener('open-terminal', handleOpenEvent);
+  }, []);
 
   const konamiCode = [
     'ArrowUp', 'ArrowUp',
@@ -189,30 +204,31 @@ export default function EasterEggTerminal({ onUnlockAchievement }: EasterEggTerm
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="w-full max-w-2xl bg-[#030307]/95 border border-cyan-500/20 rounded-xl overflow-hidden shadow-2xl shadow-cyan-950/40 relative flex flex-col h-[480px]"
+          className="w-full max-w-2xl bg-[#030307]/95 border border-cyan-500/20 rounded-2xl overflow-hidden shadow-2xl shadow-cyan-950/40 relative flex flex-col h-[85vh] sm:h-[480px] max-h-[580px]"
           style={{
             boxShadow: '0 20px 50px -15px rgba(0,0,0,0.9), 0 0 30px rgba(34, 211, 238, 0.05)'
           }}
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 bg-black/80 border-b border-white/10 font-mono text-xs">
+          <div className="flex items-center justify-between px-3.5 sm:px-4 py-3 bg-black/80 border-b border-white/10 font-mono text-xs">
             <div className="flex items-center gap-2 text-cyan-400">
               <TerminalIcon className="w-4 h-4 animate-pulse" />
-              <span>TERMINAL CORE // ETERNI-CLI v9.22</span>
+              <span className="text-[11px] sm:text-xs font-semibold">TERMINAL CORE // ETERNI-CLI</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-[10px] text-gray-500">// ESC TO DISCONNECT</span>
+            <div className="flex items-center gap-2 sm:gap-4">
+              <span className="text-[9px] sm:text-[10px] text-gray-500 hidden xs:inline">// ESC TO EXIT</span>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-gray-400 hover:text-rose-400 transition-colors cursor-pointer"
+                className="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/20 text-gray-400 hover:text-rose-400 transition-colors cursor-pointer"
+                title="Close terminal"
               >
-                <X className="w-4.5 h-4.5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
 
           {/* Screen logs */}
-          <div className="flex-grow p-4 font-mono text-xs overflow-y-auto space-y-1.5 text-cyan-400 select-text scrollbar-thin">
+          <div className="flex-grow p-3.5 sm:p-4 font-mono text-xs overflow-y-auto space-y-1.5 text-cyan-400 select-text scrollbar-thin">
             {history.map((line, idx) => {
               if (line.startsWith('guest@eterniventures')) {
                 return (
@@ -226,7 +242,7 @@ export default function EasterEggTerminal({ onUnlockAchievement }: EasterEggTerm
               if (line.startsWith('>>') || line.includes('SUCCESS') || line.includes('ACTIVE')) {
                 return (
                   <div key={idx} className="text-emerald-400 font-bold flex items-center gap-1.5">
-                    <Check className="w-3.5 h-3.5 inline" />
+                    <Check className="w-3.5 h-3.5 inline shrink-0" />
                     <span>{line}</span>
                   </div>
                 );
@@ -234,14 +250,29 @@ export default function EasterEggTerminal({ onUnlockAchievement }: EasterEggTerm
               if (line.includes('NOT FOUND') || line.includes('ALERT')) {
                 return (
                   <div key={idx} className="text-rose-400 font-bold flex items-center gap-1.5">
-                    <ShieldAlert className="w-3.5 h-3.5 inline" />
+                    <ShieldAlert className="w-3.5 h-3.5 inline shrink-0" />
                     <span>{line}</span>
                   </div>
                 );
               }
-              return <div key={idx} className="text-cyan-400/80 leading-relaxed">{line}</div>;
+              return <div key={idx} className="text-cyan-400/80 leading-relaxed text-[11px] sm:text-xs">{line}</div>;
             })}
             <div ref={terminalEndRef} />
+          </div>
+
+          {/* Quick Action Command Chips (Mobile-Friendly) */}
+          <div className="px-3 py-2 bg-black/70 border-t border-white/5 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
+            <span className="text-[9px] font-mono text-gray-500 shrink-0 font-semibold">// QUICK:</span>
+            {['help', 'projects', 'stats', 'ship', 'matrix', 'clear'].map((cmd) => (
+              <button
+                key={cmd}
+                type="button"
+                onClick={() => handleCommand(cmd)}
+                className="px-2.5 py-1 rounded-md bg-white/[0.04] hover:bg-cyan-500/20 border border-white/10 hover:border-cyan-400/40 text-[10px] font-mono text-gray-300 hover:text-cyan-300 transition-colors shrink-0 cursor-pointer active:scale-95"
+              >
+                {cmd}
+              </button>
+            ))}
           </div>
 
           {/* Form Command input bar */}
@@ -250,16 +281,16 @@ export default function EasterEggTerminal({ onUnlockAchievement }: EasterEggTerm
               e.preventDefault();
               handleCommand(inputVal);
             }}
-            className="flex items-center border-t border-white/10 bg-black/60 px-4 py-3"
+            className="flex items-center border-t border-white/10 bg-black/90 px-3 sm:px-4 py-2.5 sm:py-3"
           >
-            <span className="font-mono text-xs text-violet-400 mr-2">guest@eterniventures</span>
-            <span className="font-mono text-xs text-gray-500 mr-2">:~$</span>
+            <span className="font-mono text-xs text-violet-400 mr-1.5 shrink-0 hidden sm:inline">guest@eterniventures</span>
+            <span className="font-mono text-xs text-gray-500 mr-1.5 shrink-0">:~$</span>
             <input
               type="text"
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
-              className="flex-grow bg-transparent focus:outline-none font-mono text-xs text-white"
-              placeholder="Query terminal command (try 'help', 'projects', 'ship', 'matrix')..."
+              className="flex-grow bg-transparent focus:outline-none font-mono text-sm sm:text-xs text-white placeholder-gray-500"
+              placeholder="Query command..."
               autoFocus
             />
           </form>

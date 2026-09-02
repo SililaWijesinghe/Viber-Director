@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 
 export default function StackGrid() {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4" id="tools-stack-grid">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" id="tools-stack-grid">
       {TOOLS.map((tool, idx) => (
         <motion.div
           key={tool.name}
@@ -13,35 +13,38 @@ export default function StackGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.4, delay: idx * 0.05 }}
-          className="relative bg-[#07070e]/80 border border-white/5 rounded-xl p-5 hover:border-cyan-500/20 transition-all group overflow-hidden flex flex-col justify-between h-44 glow-cyan hover:glow-purple"
+          className="relative backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all group overflow-hidden flex flex-col justify-between h-48 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
           data-cursor="interactive"
-          style={{
-            borderColor: 'rgba(255, 255, 255, 0.03)'
-          }}
         >
+          {/* iPhone Glass Specular Highlight & Glow */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+          <div className="absolute top-[1px] left-3 right-3 h-[0.5px] bg-white/15 rounded-full pointer-events-none" />
+          
           {/* Saturated brand corner accent */}
           <div 
-            className="absolute -right-6 -top-6 w-12 h-12 rounded-full blur-2xl transition-all opacity-20 group-hover:opacity-40"
+            className="absolute -right-6 -top-6 w-16 h-16 rounded-full blur-2xl transition-all opacity-15 group-hover:opacity-35 pointer-events-none"
             style={{ backgroundColor: tool.color }}
           />
 
-          {/* Logo Brand SVG */}
-          <div className="h-14 flex items-center">
-            <BrandLogoIcon name={tool.iconName} color={tool.color} />
+          {/* Logo Brand SVG Container */}
+          <div className="h-16 flex items-center">
+            <div className="p-2.5 rounded-xl bg-black/40 border border-white/5 group-hover:border-white/10 transition-colors">
+              <BrandLogoIcon name={tool.iconName} color={tool.color} />
+            </div>
           </div>
 
           {/* Label Monospace details */}
-          <div className="space-y-1">
+          <div className="space-y-1.5 pt-2">
             <span className="text-[9px] font-mono tracking-widest text-gray-500 uppercase block">
               // {tool.category}
             </span>
             <div className="flex justify-between items-end">
-              <h4 className="text-sm font-semibold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
+              <h4 className="text-base font-bold text-white tracking-tight group-hover:text-cyan-400 transition-colors">
                 {tool.name}
               </h4>
               <span 
-                className="text-[9px] font-mono px-1.5 py-0.5 rounded border border-white/10"
-                style={{ color: tool.color, borderColor: `${tool.color}20` }}
+                className="text-[9px] font-mono px-2 py-0.5 rounded-full border bg-black/40"
+                style={{ color: tool.color, borderColor: `${tool.color}40` }}
               >
                 {tool.level}
               </span>
