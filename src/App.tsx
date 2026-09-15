@@ -22,21 +22,18 @@ import {
 } from 'lucide-react';
 
 import { PROJECTS } from './data';
-import { Project, HudToast } from './types';
+import { Project } from './types';
 import { speak, VOICE_LINES } from './lib/speech';
 
 // Custom sub-components
 import BootSequence from './components/BootSequence';
-import ParticleField from './components/ParticleField';
+import { VortexDemoSecond } from "./components/VortexDemoSecond";
 import DeviceMockup from './components/DeviceMockup';
-import EasterEggTerminal from './components/EasterEggTerminal';
-import HudToastContainer from './components/HudToastContainer';
 import CustomCursor from './components/CustomCursor';
 import ProgressRail from './components/ProgressRail';
 import StackGrid from './components/StackGrid';
 import TickingStats from './components/TickingStats';
 import SocialProofMarquee from './components/SocialProofMarquee';
-import AnimatedRays from './components/AnimatedRays';
 import SpotlightNavbar from './components/SpotlightNavbar';
 import MobileBottomDock from './components/MobileBottomDock';
 import { WebGLShader } from './components/ui/web-gl-shader';
@@ -45,10 +42,9 @@ import TubesCursor from './components/ui/tubes-cursor';
 export default function App() {
   const [isBooted, setIsBooted] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
-  const [toasts, setToasts] = useState<HudToast[]>([]);
+  const [toasts, setToasts] = useState<[]>([]);
   const [activeCategory, setActiveCategory] = useState<'All' | 'Web App' | 'SaaS' | 'E-commerce'>('All');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
   
   // Interactive Prompt Directive Simulator in Hero
   const [simulatedPrompt, setSimulatedPrompt] = useState('Architect an Awwwards-grade luxury ecommerce interface with 60fps micro-animations.');
@@ -65,16 +61,7 @@ export default function App() {
   const [contactStatus, setContactStatus] = useState<'idle' | 'shipping' | 'sent'>('idle');
   const [voiceEnabled, setVoiceEnabled] = useState(true);
 
-  // Trigger HUD toasts
-  const addToast = (title: string, description: string, type: 'achievement' | 'system' | 'unlocked' = 'system') => {
-    const id = Math.random().toString();
-    const newToast = { id, title, description, type };
-    setToasts(prev => [...prev, newToast]);
-    
-    setTimeout(() => {
-      setToasts(prev => prev.filter(t => t.id !== id));
-    }, 4500);
-  };
+
 
   // Setup live clock in header
   useEffect(() => {
@@ -90,13 +77,7 @@ export default function App() {
   // Set initial login toast after boot
   const handleBootComplete = () => {
     setIsBooted(true);
-    setTimeout(() => {
-      addToast(
-        'Mainframe Connected', 
-        'AI directive link established. System operating at full visual frame rate.', 
-        'unlocked'
-      );
-    }, 800);
+
   };
 
   const handleSectionChange = (sectionId: string) => {
@@ -107,24 +88,12 @@ export default function App() {
 
   // Rail scroll achievement triggers
   const handleUnlockSection = (sectionId: string, title: string) => {
-    if (sectionId === 'deep-diver') {
-      addToast(
-        'Deep Diver', 
-        'Explored 80% of Eterniventures core workspace. All dossiers loaded.', 
-        'achievement'
-      );
-    } else {
-      addToast(
-        `Section Decrypted`, 
-        `Now viewing: ${title.toUpperCase()} // LEVEL_SECURED`, 
-        'system'
-      );
-    }
+
   };
 
   const handleTestSynthesis = () => {
     setIsSimulating(true);
-    addToast('Directive Broadcasted', 'Synthesizing layout directives into virtual DOM buffer.', 'system');
+
     
     setTimeout(() => {
       setSimulatedTokens(prev => [
@@ -132,7 +101,7 @@ export default function App() {
         `DEPLOYED_NODE_${Math.floor(Math.random() * 900 + 100)} // 0.04ms`
       ]);
       setIsSimulating(false);
-      addToast('Synthesis Complete', 'Virtual container compiled at 60 FPS.', 'unlocked');
+
     }, 1200);
   };
 
@@ -143,11 +112,6 @@ export default function App() {
     setContactStatus('shipping');
     setTimeout(() => {
       setContactStatus('sent');
-      addToast(
-        'Direct Link Dispatched',
-        'Secure packet sent to Eterniventures nodes. Response pending.',
-        'unlocked'
-      );
       setContactMessage('');
     }, 1500);
   };
@@ -175,26 +139,17 @@ export default function App() {
       {/* Immersive cyber backgrounds & inputs */}
       <TubesCursor />
       <WebGLShader className="opacity-40" />
-      <div className="fixed inset-0 pointer-events-none opacity-20 bg-sleek-grid" />
-      <div className="fixed inset-0 pointer-events-none opacity-5 bg-sleek-scanlines" />
-      <ParticleField />
+      <VortexDemoSecond />
       <CustomCursor />
       
       {/* Side Viewport Navigation / Gamified Tracker */}
       <ProgressRail onUnlockSection={handleUnlockSection} onSectionChange={handleSectionChange} />
 
-      {/* Secrets Mainframe shell launcher */}
-      <EasterEggTerminal 
-        isOpenExternal={isTerminalOpen} 
-        onCloseExternal={() => setIsTerminalOpen(false)} 
-        onUnlockAchievement={(title, desc) => addToast(title, desc, 'achievement')} 
-      />
 
       {/* Floating HUD toast logger */}
-      <HudToastContainer toasts={toasts} onRemove={(id) => setToasts(prev => prev.filter(t => t.id !== id))} />
 
       {/* SYSTEM HEADER BAR */}
-      <header className="sticky top-0 z-30 bg-[#040409]/85 backdrop-blur-2xl border-b border-white/[0.08] px-3 sm:px-6 md:px-8 lg:px-12 py-2.5 sm:py-3 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
+      <header className="sticky top-0 z-30 liquid-glass-dark !border-x-0 !border-t-0 !border-b !rounded-none px-3 sm:px-6 md:px-8 lg:px-12 py-2.5 sm:py-3 transition-all shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
         {/* Top edge specular highlight */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent pointer-events-none" />
 
@@ -227,7 +182,7 @@ export default function App() {
                 { label: "Contact", href: "#contact" },
               ]}
               onItemClick={(item) => {
-                addToast('Sector Vectoring', `Targeting coordinate [${item.label.toUpperCase()}].`, 'system');
+                
               }}
             />
           </div>
@@ -246,15 +201,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Terminal launcher shortcut button */}
-            <button
-              onClick={() => setIsTerminalOpen(true)}
-              className="p-2 sm:px-3 sm:py-1.5 bg-[#0e0e1a] border border-violet-500/40 hover:border-violet-400 rounded-xl text-[10px] font-mono text-violet-300 hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-sm active:scale-95"
-              title="Launch Mainframe Terminal"
-            >
-              <TerminalIcon className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="hidden sm:inline font-semibold">TERMINAL</span>
-            </button>
 
             {/* Voice HUD Audio button */}
             <button
@@ -283,7 +229,7 @@ export default function App() {
             <a 
               href="#contact" 
               className="px-3 sm:px-4 py-2 sm:py-1.5 bg-gradient-to-r from-violet-600 to-cyan-500 hover:from-violet-500 hover:to-cyan-400 text-white rounded-xl text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-cyan-950/50 transition-all hover:scale-[1.02] cursor-pointer shrink-0"
-              onClick={() => addToast('Signal Transmitted', 'Navigating coordinates to contact portal.', 'system')}
+              
             >
               <span className="hidden xs:inline">Direct Link</span>
               <span className="xs:hidden">Contact</span>
@@ -296,7 +242,7 @@ export default function App() {
       <main className="max-w-7xl mx-auto px-3.5 sm:px-8 lg:px-12 space-y-20 sm:space-y-36 relative z-10 pt-6 sm:pt-10 lg:pt-14 pb-24 lg:pb-0">
         
         {/* 1. HERO SECTION (Desktop Dual-Column Interactive Cyber Suite) */}
-        <section id="hero" className="min-h-0 sm:min-h-[75vh] flex flex-col justify-center relative overflow-hidden rounded-2xl sm:rounded-3xl p-5 sm:p-10 md:p-12 lg:p-16 backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <section id="hero" className="min-h-0 sm:min-h-[75vh] flex flex-col justify-center relative overflow-hidden rounded-3xl sm:rounded-3xl p-5 sm:p-10 md:p-12 lg:p-16 liquid-glass-dark ">
           {/* iPhone Glass Specular Highlight & Radial Shine Overlay */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
           <div className="absolute top-[1px] left-4 sm:left-8 right-4 sm:right-8 h-[0.5px] bg-white/20 rounded-full pointer-events-none" />
@@ -304,7 +250,6 @@ export default function App() {
           <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full bg-violet-600/[0.06] blur-3xl pointer-events-none" />
 
           {/* Animated Aurora Rays Background */}
-          <AnimatedRays className="absolute inset-0 -z-10 pointer-events-none opacity-85" />
           
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center relative z-10">
             
@@ -340,19 +285,12 @@ export default function App() {
                 <a 
                   href="#work"
                   className="w-full xs:w-auto justify-center px-5 sm:px-6 py-3 sm:py-3.5 bg-gradient-to-r from-violet-600 via-cyan-500 to-cyan-400 text-white text-xs font-mono font-bold uppercase rounded-xl shadow-lg shadow-cyan-950/60 hover:shadow-cyan-500/30 transition-all flex items-center gap-2.5 border border-white/20 group cursor-pointer hover:scale-[1.02]"
-                  onClick={() => addToast('Routing Sequence', 'Initiating coordinate translation to showcase.', 'system')}
+                  
                 >
                   <span>EXPLORE SHOWCASE // 02</span>
                   <Layers className="w-4 h-4 group-hover:translate-y-0.5 transition-transform" />
                 </a>
 
-                <button
-                  onClick={() => setIsTerminalOpen(true)}
-                  className="w-full xs:w-auto justify-center px-4 sm:px-5 py-3 sm:py-3.5 bg-black/60 border border-white/15 hover:border-cyan-400/60 hover:bg-white/[0.04] text-gray-300 hover:text-white text-xs font-mono font-semibold rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-md"
-                >
-                  <TerminalIcon className="w-4 h-4 text-cyan-400" />
-                  <span>LAUNCH DIRECT_CLI</span>
-                </button>
               </div>
 
               {/* Live telemetry metadata pill row */}
@@ -375,7 +313,7 @@ export default function App() {
 
             {/* Right Column (5 cols on desktop) - Interactive Holographic Telemetry Hub */}
             <div className="lg:col-span-5">
-              <div className="relative rounded-2xl backdrop-blur-2xl bg-black/70 border border-white/15 p-6 shadow-2xl overflow-hidden space-y-5">
+              <div className="relative rounded-3xl liquid-glass-dark p-6  overflow-hidden space-y-5">
                 {/* Specular glass highlight */}
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
                 
@@ -492,7 +430,7 @@ export default function App() {
                   key={cat}
                   onClick={() => {
                     setActiveCategory(cat);
-                    addToast('Filter Re-indexed', `Sorting system parameters to ${cat.toUpperCase()}`, 'system');
+                    
                   }}
                   className={`px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                     activeCategory === cat
@@ -522,7 +460,7 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ type: 'spring', stiffness: 100, damping: 15 }}
-                  className="backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-7 lg:p-8 group hover:border-cyan-400/50 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 relative overflow-hidden shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
+                  className="liquid-glass-dark rounded-3xl p-7 lg:p-8 group hover:border-cyan-400/50 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 relative overflow-hidden "
                   data-cursor="project"
                 >
                   {/* iPhone Glass Specular Highlight & Radial Shine Overlay */}
@@ -585,7 +523,7 @@ export default function App() {
                             setSelectedProject(null);
                           } else {
                             setSelectedProject(proj);
-                            addToast('Manifest Restructured', `Decrypted pipeline details for ${proj.name}`, 'system');
+                            
                           }
                         }}
                         className="w-full py-2.5 bg-black/50 border border-white/10 hover:border-violet-500/40 rounded-xl text-[11px] font-mono text-gray-300 hover:text-cyan-300 transition-all flex items-center justify-center gap-2 cursor-pointer uppercase tracking-wider font-semibold shadow-inner"
@@ -602,7 +540,7 @@ export default function App() {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.3 }}
-                            className="overflow-hidden bg-black/80 border border-white/10 rounded-xl p-5 mt-3 space-y-4 text-xs font-mono shadow-2xl"
+                            className="overflow-hidden bg-black/80 border border-white/10 rounded-xl p-5 mt-3 space-y-4 text-xs font-mono "
                           >
                             <div className="space-y-1">
                               <span className="text-[10px] text-rose-400 font-bold flex items-center gap-1.5">
@@ -654,7 +592,7 @@ export default function App() {
 
 
         {/* 3. MANIFESTO / PHILOSOPHY SECTION (Responsive 2-Column Split) */}
-        <section id="manifesto" className="relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16 backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <section id="manifesto" className="relative overflow-hidden rounded-3xl p-8 md:p-12 lg:p-16 liquid-glass-dark ">
           {/* iPhone Glass Specular Highlight & Radial Shine Overlay */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
           <div className="absolute top-[1px] left-8 right-8 h-[0.5px] bg-white/20 rounded-full pointer-events-none" />
@@ -688,7 +626,7 @@ export default function App() {
 
             {/* Right Comparison Card (5 cols) */}
             <div className="lg:col-span-5 space-y-4">
-              <div className="backdrop-blur-xl bg-black/70 border border-white/10 rounded-2xl p-6 space-y-5 shadow-2xl relative overflow-hidden">
+              <div className="liquid-glass-dark rounded-3xl p-6 space-y-5  relative overflow-hidden">
                 <div className="flex justify-between items-center border-b border-white/10 pb-3 font-mono text-xs text-gray-400">
                   <span className="font-bold text-white">// THE_PARADIGM_SHIFT</span>
                   <span className="text-cyan-400 font-semibold">10x VELOCITY</span>
@@ -794,7 +732,7 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between h-64 relative overflow-hidden shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
+                className="liquid-glass-dark rounded-3xl p-6 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all flex flex-col justify-between h-64 relative overflow-hidden "
               >
                 {/* iPhone Glass Specular Highlight */}
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
@@ -848,7 +786,7 @@ export default function App() {
             {/* Quick dispatch terminal form (7 cols on desktop) */}
             <form 
               onSubmit={handleContactSubmit}
-              className="lg:col-span-7 backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-7 lg:p-8 space-y-5 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] relative overflow-hidden"
+              className="lg:col-span-7 liquid-glass-dark rounded-3xl p-7 lg:p-8 space-y-5  relative overflow-hidden"
             >
               {/* iPhone Glass Specular Highlight */}
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
@@ -928,7 +866,7 @@ export default function App() {
             </form>
 
             {/* Direct channels & SLA card (5 cols on desktop) */}
-            <div className="lg:col-span-5 backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-7 lg:p-8 space-y-6 font-mono text-xs text-gray-300 relative overflow-hidden shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+            <div className="lg:col-span-5 liquid-glass-dark rounded-3xl p-7 lg:p-8 space-y-6 font-mono text-xs text-gray-300 relative overflow-hidden ">
               {/* iPhone Glass Specular Highlight */}
               <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
               <div className="absolute top-[1px] left-4 right-4 h-[0.5px] bg-white/15 rounded-full pointer-events-none" />
@@ -966,7 +904,7 @@ export default function App() {
       </main>
 
       {/* SYSTEM FOOTER */}
-      <footer className="relative z-10 border-t border-white/10 py-8 px-4 sm:px-12 bg-black/50 backdrop-blur-2xl mt-24 sm:mt-36 mb-20 lg:mb-0">
+      <footer className="relative z-10 border-t border-white/10 py-8 px-4 sm:px-12 liquid-glass-dark !border-x-0 !border-b-0 !border-t !rounded-none mt-24 sm:mt-36 mb-20 lg:mb-0">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs text-gray-400 text-center md:text-left">
           
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5">
@@ -975,27 +913,15 @@ export default function App() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 sm:gap-6 text-[10px] sm:text-[11px]">
-            <span className="hover:text-cyan-400 transition-colors cursor-pointer" onClick={() => addToast('Directive Policy', 'Terms of dispatch link loaded.', 'system')}>Terms of Dispatch</span>
-            <span className="hover:text-cyan-400 transition-colors cursor-pointer" onClick={() => addToast('Konami Clue', 'Try typing "vibe" on your keyboard inside the mainframe.', 'unlocked')}>Mainframe Override</span>
+            <span className="hover:text-cyan-400 transition-colors cursor-pointer">Terms of Dispatch</span>
+            <span className="hover:text-cyan-400 transition-colors cursor-pointer">Mainframe Override</span>
           </div>
-
-          <div className="flex items-center gap-4">
-            <div className="h-[1px] w-24 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent hidden md:block"></div>
-            <div className="flex items-center gap-1.5 text-cyan-400/60 font-semibold text-[10px] sm:text-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-              <span>TRANSMISSION ACTIVE</span>
-            </div>
-          </div>
-
         </div>
       </footer>
 
-      {/* Mobile Floating Glass Dock (Quick Navigation & Sector Tracker) */}
       <MobileBottomDock 
-        onOpenTerminal={() => setIsTerminalOpen(true)}
         onNavigate={(id, label) => {
           handleSectionChange(id);
-          addToast('Sector Vectoring', `Targeting coordinate [${label.toUpperCase()}].`, 'system');
         }}
       />
 

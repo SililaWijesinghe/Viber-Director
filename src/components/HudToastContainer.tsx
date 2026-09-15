@@ -23,7 +23,7 @@ export default function HudToastContainer({ toasts, onRemove }: HudToastContaine
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
               transition={{ type: 'spring', stiffness: 260, damping: 25 }}
-              className="pointer-events-auto bg-[#080812]/90 backdrop-blur-2xl border border-white/15 rounded-2xl p-3.5 sm:p-4 flex items-start gap-3 relative overflow-hidden group hover:border-cyan-400/50 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
+              className="pointer-events-auto liquid-glass-dark rounded-3xl p-3.5 sm:p-4 flex items-start gap-3 relative overflow-hidden group hover:border-cyan-400/50 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
               style={{
                 boxShadow: isAchievement 
                   ? '0 20px 50px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.2), inset 0 1px 1.5px rgba(255,255,255,0.4), inset 0 -1px 1px rgba(0,0,0,0.8), 0 0 25px rgba(124,58,237,0.25)'

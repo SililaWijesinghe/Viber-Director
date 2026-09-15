@@ -75,7 +75,7 @@ export default function MobileBottomDock({ onOpenTerminal, onNavigate }: MobileB
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-        className="pointer-events-auto relative flex items-center justify-between gap-1 bg-[#06060f]/90 backdrop-blur-2xl border border-white/15 rounded-full px-2 py-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(34,211,238,0.15)] max-w-md w-full"
+        className="pointer-events-auto relative flex items-center justify-between gap-1 liquid-glass-dark rounded-full px-2 py-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_20px_rgba(34,211,238,0.15)] max-w-md w-full"
       >
         {/* Top Gloss Specular line */}
         <div className="absolute top-0 inset-x-4 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none" />

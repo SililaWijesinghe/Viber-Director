@@ -143,7 +143,7 @@ export function SpotlightNavbar({
         className={cn(
           "spotlight-nav spotlight-nav-bg glass-border spotlight-nav-shadow",
           "relative h-10 md:h-11 rounded-full transition-all duration-300 overflow-hidden",
-          "border border-cyan-500/20 bg-[#06060f]/80 backdrop-blur-xl shadow-lg shadow-cyan-950/40"
+          "liquid-glass-dark !rounded-full"
         )}
         style={{
           ["--spotlight-color" as string]: "rgba(34, 211, 238, 0.25)",

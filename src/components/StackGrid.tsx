@@ -13,7 +13,7 @@ export default function StackGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-50px' }}
           transition={{ duration: 0.4, delay: idx * 0.05 }}
-          className="relative backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-6 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all group overflow-hidden flex flex-col justify-between h-48 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
+          className="relative liquid-glass-dark rounded-3xl p-6 hover:border-cyan-400/40 hover:bg-white/[0.05] transition-all group overflow-hidden flex flex-col justify-between h-48 "
           data-cursor="interactive"
         >
           {/* iPhone Glass Specular Highlight & Glow */}

@@ -11,7 +11,7 @@ export default function SocialProofMarquee() {
   return (
     <div className="space-y-10" id="social-proof-section">
       {/* 1. INFINITE HORIZONTAL CLIENT LOGO MARQUEE WITH EDGE FADES */}
-      <div className="relative w-full overflow-hidden py-5 backdrop-blur-2xl bg-white/[0.02] border-y border-white/[0.08] rounded-2xl shadow-[0_4px_24px_0_rgba(0,0,0,0.25)]">
+      <div className="relative w-full overflow-hidden py-5 liquid-glass-dark !border-x-0 !border-y rounded-3xl ">
         {/* Left & Right gradient masks for smooth fade */}
         <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#05050a] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#05050a] to-transparent z-10 pointer-events-none" />
@@ -53,7 +53,7 @@ export default function SocialProofMarquee() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
-            className="backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] rounded-2xl p-7 relative overflow-hidden flex flex-col justify-between hover:border-violet-500/40 hover:bg-white/[0.05] transition-all shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]"
+            className="liquid-glass-dark rounded-3xl p-7 relative overflow-hidden flex flex-col justify-between hover:border-violet-500/40 hover:bg-white/[0.05] transition-all "
           >
             {/* iPhone Glass Specular Highlight */}
             <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
