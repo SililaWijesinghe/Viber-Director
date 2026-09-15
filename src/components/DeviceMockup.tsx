@@ -147,8 +147,7 @@ export default function DeviceMockup({ url, name, accentColor, mobileOnly }: Dev
                     transform: `scale(${desktopScale})`,
                     transformOrigin: 'top left'
                   }}>
-                    <iframe
-                      src={url}
+                    <iframe loading="lazy" src={url}
                       title={`${name} Desktop Preview`}
                       className="w-full h-full border-0 transition-opacity duration-300"
                       referrerPolicy="no-referrer"
@@ -224,8 +223,7 @@ export default function DeviceMockup({ url, name, accentColor, mobileOnly }: Dev
                   transform: `scale(${mobileScale})`,
                   transformOrigin: 'top left'
                 }}>
-                  <iframe
-                    src={url}
+                  <iframe loading="lazy" src={url}
                     title={`${name} Mobile Preview`}
                     className="w-full h-full border-0"
                     referrerPolicy="no-referrer"

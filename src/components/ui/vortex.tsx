@@ -254,6 +254,7 @@ export const Vortex = (props: VortexProps) => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
+        transition={{ duration: 2, ease: "easeInOut" }}
         ref={containerRef}
         className="absolute inset-0 z-0 flex h-full w-full items-center justify-center bg-transparent"
       >

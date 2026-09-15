@@ -18,7 +18,7 @@ export interface Project {
 
 export interface ToolItem {
   name: string;
-  category: 'IDE' | 'AI Model' | 'Frontend' | 'Deployment' | 'Backend';
+  category: 'IDE' | 'AI Model' | 'Frontend' | 'Deployment' | 'Backend' | 'Google AI' | 'Agent';
   iconName: string; // references lucide or custom SVG handler
   color: string;
   level: string; // e.g., '100% Directed', 'Power User'
@@ -38,9 +38,3 @@ export interface HudToast {
   type: 'achievement' | 'system' | 'unlocked';
 }
 
-export interface Testimonial {
-  quote: string;
-  author: string;
-  role: string;
-  company: string;
-}

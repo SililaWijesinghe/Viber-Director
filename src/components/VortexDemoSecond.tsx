@@ -5,7 +5,7 @@ export function VortexDemoSecond() {
   return (
     <div className="fixed inset-0 w-full h-full -z-50 overflow-hidden">
       <Vortex
-        backgroundColor="#05050a"
+        backgroundColor="transparent"
         rangeY={800}
         particleCount={500}
         baseHue={200}

@@ -1,4 +1,4 @@
-import { Project, ToolItem, ProcessStep, Testimonial } from './types';
+import { Project, ToolItem, ProcessStep } from './types';
 
 export const PROJECTS: Project[] = [
   {
@@ -224,6 +224,42 @@ export const TOOLS: ToolItem[] = [
     color: '#10B981', // Emerald
     level: 'Durable Sync'
   }
+,
+  {
+    name: 'Google AI Studio',
+    category: 'Google AI',
+    iconName: 'google-ai-studio',
+    color: '#4285F4', // Google Blue
+    level: 'Orchestrator'
+  },
+  {
+    name: 'Google Gemini',
+    category: 'Google AI',
+    iconName: 'google-gemini',
+    color: '#8E24AA', // Purple
+    level: 'Core Brain'
+  },
+  {
+    name: 'Google Stitch AI',
+    category: 'Google AI',
+    iconName: 'google-stitch',
+    color: '#0F9D58', // Green
+    level: 'Fabricator'
+  },
+  {
+    name: 'Google Flow',
+    category: 'Google AI',
+    iconName: 'google-flow',
+    color: '#DB4437', // Red
+    level: 'Pipeline'
+  },
+  {
+    name: 'Nano Banana',
+    category: 'Agent',
+    iconName: 'nano-banana',
+    color: '#F4B400', // Yellow
+    level: 'Utility'
+  }
 ];
 
 export const PROCESS: ProcessStep[] = [
@@ -253,17 +289,4 @@ export const PROCESS: ProcessStep[] = [
   }
 ];
 
-export const TESTIMONIALS: Testimonial[] = [
-  {
-    quote: "Eterniventures does not code in the traditional sense. They direct code like a conductor, shipping interfaces in days that usually take entire teams months to design and debug.",
-    author: "Elena Rostov",
-    role: "Chief Design Officer",
-    company: "Aether Technologies"
-  },
-  {
-    quote: "The speed is genuinely frightening. We saw 4 high-fidelity mockups within 15 minutes, and they compiled perfectly on the first run. The aesthetic is incredibly sharp.",
-    author: "Marcus Thorne",
-    role: "VP of Product",
-    company: "Synthetica Core"
-  }
-];
+

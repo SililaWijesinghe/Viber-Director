@@ -28,18 +28,19 @@ import { speak, VOICE_LINES } from './lib/speech';
 
 // Custom sub-components
 import BootSequence from './components/BootSequence';
-import { VortexDemoSecond } from "./components/VortexDemoSecond";
+const VortexDemoSecond = React.lazy(() => import("./components/VortexDemoSecond").then(m => ({ default: m.VortexDemoSecond })));
 import AnimatedRays from './components/AnimatedRays';
-import DeviceMockup from './components/DeviceMockup';
+const DeviceMockup = React.lazy(() => import('./components/DeviceMockup'));
 import CustomCursor from './components/CustomCursor';
 import ProgressRail from './components/ProgressRail';
 import StackGrid from './components/StackGrid';
 import TickingStats from './components/TickingStats';
-import SocialProofMarquee from './components/SocialProofMarquee';
 import SpotlightNavbar from './components/SpotlightNavbar';
-import MobileBottomDock from './components/MobileBottomDock';
-import { WebGLShader } from './components/ui/web-gl-shader';
-import TubesCursor from './components/ui/tubes-cursor';
+const WebGLShader = React.lazy(() => import('./components/ui/web-gl-shader').then(m => ({ default: m.WebGLShader })));
+const TubesCursor = React.lazy(() => import('./components/ui/tubes-cursor'));
+const LightPillar = React.lazy(() => import('./components/LightPillar'));
+const HeroSlideshow = React.lazy(() => import('./components/HeroSlideshow'));
+const WarpText = React.lazy(() => import('./components/WarpText'));
 
 export default function App() {
   const [isBooted, setIsBooted] = useState(false);
@@ -48,6 +49,26 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState<'All' | 'Web App' | 'SaaS' | 'E-commerce'>('All');
   const [visibleCount, setVisibleCount] = useState(4);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  useEffect(() => {
+    // Preload heavy chunks during boot sequence
+    const preloadHeavyAssets = async () => {
+      try {
+        await Promise.all([
+          import('./components/LightPillar'),
+          import('./components/VortexDemoSecond'),
+          import('./components/DeviceMockup'),
+          import('./components/WarpText'),
+          import('./components/HeroSlideshow'),
+          import('./components/ui/web-gl-shader'),
+          import('./components/ui/tubes-cursor')
+        ]);
+        console.log('Heavy chunks preloaded');
+      } catch (e) {}
+    };
+    preloadHeavyAssets();
+  }, []);
+
   
   // Interactive Prompt Directive Simulator in Hero
   const [simulatedPrompt, setSimulatedPrompt] = useState('Architect an Awwwards-grade luxury ecommerce interface with 60fps micro-animations.');
@@ -137,12 +158,29 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-[#f5f5f5] font-sans relative selection:bg-cyan-500/30 selection:text-white overflow-x-hidden pb-24 lg:pb-0">
+    <React.Suspense fallback={<div className="min-h-screen bg-[#020308]" />}>
+      <div className="min-h-screen bg-[#020308] text-[#f5f5f5] font-sans relative selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       
       {/* Immersive cyber backgrounds & inputs */}
       <TubesCursor />
       <WebGLShader className="opacity-40" />
       <VortexDemoSecond />
+      
+      {/* Global Animated Energy Field */}
+      <LightPillar
+        topColor="#5227FF"
+        bottomColor="#FF9FFC"
+        intensity={1.0}
+        rotationSpeed={0.3}
+        glowAmount={0.005}
+        pillarWidth={3.0}
+        pillarHeight={0.4}
+        noiseIntensity={0.5}
+        pillarRotation={0}
+        interactive={false}
+        mixBlendMode="screen"
+        quality="low"
+      />
       <div className="fixed inset-0 pointer-events-none opacity-20 bg-sleek-grid z-[-40]" />
       <div className="fixed inset-0 pointer-events-none opacity-5 bg-sleek-scanlines z-[-40]" />
       <CustomCursor />
@@ -166,7 +204,7 @@ export default function App() {
               <div className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span className="font-mono text-[8px] sm:text-[9px] tracking-[0.25em] text-cyan-400 font-semibold uppercase">
-                  SYSTEM_OPERATOR
+                  SILILA WIJESINGHE
                 </span>
               </div>
               <span className="text-lg sm:text-2xl font-black tracking-tighter text-white uppercase block font-display">
@@ -244,10 +282,10 @@ export default function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-3.5 sm:px-8 lg:px-12 space-y-20 sm:space-y-36 relative z-10 pt-6 sm:pt-10 lg:pt-14 pb-24 lg:pb-0">
+      <main className="max-w-7xl mx-auto pl-[15px] pr-3.5 sm:px-8 lg:px-12 space-y-20 sm:space-y-36 relative z-10 pt-0 sm:pt-10 lg:pt-14">
         
         {/* 1. HERO SECTION (Desktop Dual-Column Interactive Cyber Suite) */}
-        <section id="hero" className="min-h-0 sm:min-h-[75vh] flex flex-col justify-center relative overflow-hidden rounded-3xl sm:rounded-3xl p-5 sm:p-10 md:p-12 lg:p-16 liquid-glass-dark ">
+        <section id="hero" className="min-h-[85vh] sm:min-h-[75vh] flex flex-col justify-center relative overflow-hidden rounded-3xl sm:rounded-3xl p-5 pt-20 sm:p-10 md:p-12 lg:p-16 liquid-glass-dark mt-5 sm:mt-0">
           <AnimatedRays className="absolute inset-0 -z-10 pointer-events-none opacity-85" />
           {/* iPhone Glass Specular Highlight & Radial Shine Overlay */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
@@ -260,7 +298,7 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-14 items-center relative z-10">
             
             {/* Left Column (7 cols on desktop) */}
-            <div className="lg:col-span-7 space-y-5 sm:space-y-6">
+            <div className="lg:col-span-6 xl:col-span-6 space-y-5 sm:space-y-6">
               
               {/* HUD tag indicator */}
               <div className="flex items-center gap-2 font-mono text-[10px] sm:text-xs text-[#22D3EE]">
@@ -273,8 +311,22 @@ export default function App() {
               {/* Kinetic display heading */}
               <div className="relative pl-3.5 sm:pl-5">
                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-cyan-400 via-violet-500 to-transparent rounded-full" />
-                <h2 className="text-3.5xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[76px] leading-[0.95] font-black uppercase tracking-tighter text-white font-display">
-                  I don’t write code.<br />
+                <WarpText
+                  className="font-display filter drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] w-[110%] -ml-[5%] sm:w-full sm:-ml-[15px]"
+                  text="I DON'T WRITE CODE."
+                  color="#ffffff"
+                  warpStrength={0.08}
+                  warpScale={1.7}
+                  speed={0.55}
+                  pointerInfluence={0.42}
+                  pointerStrength={0.38}
+                  refraction={0.018}
+                  ripple
+                  fontSize="clamp(3.5rem, 15vw, 5.5rem)"
+                  fontWeight={900}
+                  style={{ height: '220px' }}
+                />
+                <h2 className="text-[clamp(2.6rem,12vw,5rem)] leading-[1.05] font-black uppercase tracking-tighter text-white font-display mt-[-50px]">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-cyan-400 to-cyan-300 animate-glitch relative drop-shadow-[0_0_20px_rgba(34,211,238,0.3)]" data-text="I DIRECT IT.">
                     I direct it.
                   </span>
@@ -318,83 +370,11 @@ export default function App() {
             </div>
 
             {/* Right Column (5 cols on desktop) - Interactive Holographic Telemetry Hub */}
-            <div className="lg:col-span-5">
-              <div className="relative rounded-3xl liquid-glass-dark p-6  overflow-hidden space-y-5">
-                {/* Specular glass highlight */}
-                <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
-                
-                {/* Terminal Header */}
-                <div className="flex justify-between items-center border-b border-white/10 pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                    <span className="text-[10px] font-mono font-bold text-gray-300 ml-1">DIRECTIVE_ENGINE_V3</span>
-                  </div>
-                  <span className="text-[9px] font-mono px-2 py-0.5 rounded-md bg-emerald-950/60 border border-emerald-500/30 text-emerald-400 font-semibold">
-                    60 FPS LOCKED
-                  </span>
-                </div>
-
-                {/* Simulated Audio/Cognition Waveform */}
-                <div className="space-y-1.5">
-                  <div className="flex justify-between text-[10px] font-mono text-gray-400">
-                    <span>COGNITIVE_SYNTHESIS_BAND</span>
-                    <span className="text-cyan-400">98.4% EFFICIENCY</span>
-                  </div>
-                  <div className="h-10 bg-black/60 rounded-lg p-1.5 flex items-end justify-between gap-1 border border-white/5 overflow-hidden">
-                    {[40, 65, 30, 85, 95, 50, 75, 90, 45, 60, 100, 70, 85, 40, 60, 95, 80, 55, 70, 90, 60, 45, 80, 95, 30].map((h, i) => (
-                      <div 
-                        key={i} 
-                        className="w-full bg-gradient-to-t from-violet-600 via-cyan-400 to-cyan-300 rounded-t-sm transition-all duration-300"
-                        style={{ 
-                          height: isSimulating ? `${(h * 1.2) % 100}%` : `${h}%`,
-                          opacity: isSimulating ? 1 : 0.65
-                        }}
-                      />
-                    ))}
-                  </div>
-                </div>
-
-                {/* Live Streaming Prompt Token Feed */}
-                <div className="space-y-2 bg-black/80 rounded-xl p-3 border border-white/5 font-mono text-[10px]">
-                  <div className="flex justify-between text-gray-400 text-[9px] uppercase border-b border-white/5 pb-1">
-                    <span>// DIRECTIVE_STREAM</span>
-                    <span className="text-cyan-400">LIVE_EDGE</span>
-                  </div>
-                  <div className="space-y-1 text-gray-300">
-                    {simulatedTokens.map((tok, i) => (
-                      <div key={i} className="flex items-center gap-2 truncate">
-                        <span className="text-violet-400">&gt;&gt;</span>
-                        <span className={i === simulatedTokens.length - 1 ? 'text-cyan-300 font-bold' : 'text-gray-400'}>
-                          {tok}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Interactive Test Directive Sandbox Button */}
-                <button
-                  onClick={handleTestSynthesis}
-                  disabled={isSimulating}
-                  className="w-full py-2.5 bg-gradient-to-r from-violet-600/30 to-cyan-500/30 hover:from-violet-600/50 hover:to-cyan-500/50 border border-cyan-400/40 rounded-xl text-[11px] font-mono font-bold text-cyan-300 hover:text-white transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md disabled:opacity-50"
-                >
-                  {isSimulating ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin text-cyan-400" />
-                      <span>SYNTHESIZING TO VIRTUAL DOM...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="w-3.5 h-3.5 text-amber-400" />
-                      <span>TEST DIRECTIVE SYNTHESIS</span>
-                    </>
-                  )}
-                </button>
+            <div className="lg:col-span-6 xl:col-span-6 relative w-full aspect-[16/10] sm:aspect-video lg:aspect-video xl:aspect-video">
+              <div className="absolute inset-0 rounded-3xl liquid-glass-dark p-1">
+                <HeroSlideshow />
               </div>
             </div>
-
           </div>
 
           {/* Ticking telemetry bottom HUD strip */}
@@ -430,7 +410,7 @@ export default function App() {
             </div>
 
             {/* Category Filter Pills with Item Counts */}
-            <div className="flex flex-wrap gap-1.5 bg-black/50 border border-white/10 p-1.5 rounded-xl self-start lg:self-end shadow-inner">
+            <div className="flex overflow-x-auto gap-1.5 bg-black/50 border border-white/10 p-1.5 rounded-xl self-start lg:self-end shadow-inner w-full lg:w-auto" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
               {(['All', 'Web App', 'SaaS', 'E-commerce'] as const).map((cat) => (
                 <button
                   key={cat}
@@ -438,7 +418,7 @@ export default function App() {
                     setActiveCategory(cat);
                     
                   }}
-                  className={`px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  className={`px-3.5 py-1.5 rounded-lg text-xs font-mono uppercase font-semibold transition-all cursor-pointer flex items-center shrink-0 whitespace-nowrap gap-1.5 ${
                     activeCategory === cat
                       ? 'bg-gradient-to-r from-violet-600 to-cyan-500 text-white shadow-md'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -454,7 +434,7 @@ export default function App() {
           </div>
 
           {/* Bento-Grid Project System */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10" id="projects-bento-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10" id="projects-bento-grid">
             {filteredProjects.slice(0, visibleCount).map((proj, idx) => {
               const isExpanded = selectedProject?.id === proj.id;
 
@@ -490,9 +470,11 @@ export default function App() {
                     
                     {/* Category & Status Indicators */}
                     <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-mono tracking-widest text-gray-400 uppercase font-bold">
-                        // {proj.category}
-                      </span>
+                      <div className="flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded-full">
+    <span className="text-[10px] font-sans font-bold tracking-wider text-cyan-300 uppercase">
+      {proj.category}
+    </span>
+  </div>
                       <div className="flex items-center gap-1.5 bg-emerald-950/40 border border-emerald-500/20 px-2 py-0.5 rounded-full">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                         <span className="text-[9px] font-mono text-emerald-400 font-semibold tracking-wider">SECURE_EDGE</span>
@@ -510,16 +492,27 @@ export default function App() {
                     </div>
 
                     {/* Tech Stack Badges */}
-                    <div className="flex flex-wrap gap-1.5">
+                    <div className="flex flex-wrap gap-1.5 pb-2">
                       {proj.stack.map((tag) => (
                         <span 
                           key={tag} 
-                          className="px-2.5 py-0.5 bg-white/[0.04] border border-white/10 rounded-md text-[9px] font-mono text-gray-300 uppercase tracking-wider"
+                          className="px-3 py-1 bg-cyan-950/40 border border-cyan-500/20 rounded-full text-[10px] font-sans font-medium text-cyan-100 tracking-wide"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
+                    
+                    {/* Primary CTA (View Live Site) */}
+                    <a 
+                      href={proj.liveUrl} 
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="w-full py-3.5 bg-gradient-to-r from-violet-600 via-cyan-500 to-cyan-400 text-white rounded-xl font-sans font-semibold text-[15px] flex items-center justify-center gap-2 shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.6)] transition-all cursor-pointer"
+                    >
+                      View Live Site
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
 
                     {/* Progressive Disclosure Panel Toggle (Problem -> Approach -> Result) */}
                     <div className="pt-2">
@@ -601,11 +594,6 @@ export default function App() {
               </button>
             </div>
           )}
-
-          {/* Social Proof Infinite Testimonial & Marquee */}
-          <div className="pt-10">
-            <SocialProofMarquee />
-          </div>
         </section>
 
 
@@ -832,7 +820,7 @@ export default function App() {
                       key={preset}
                       type="button"
                       onClick={() => setContactMessage(`Directive Request: ${preset}. Looking for high-speed architecture design and implementation.`)}
-                      className="px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 hover:border-cyan-400/50 text-[10px] font-mono text-gray-300 hover:text-cyan-300 transition-colors cursor-pointer"
+                      className="px-3 py-2 rounded-lg bg-black/40 border border-white/10 hover:border-cyan-400/50 text-[11px] font-mono text-gray-300 hover:text-cyan-300 transition-colors cursor-pointer"
                     >
                       {preset}
                     </button>
@@ -847,7 +835,7 @@ export default function App() {
                 <textarea
                   value={contactMessage}
                   onChange={(e) => setContactMessage(e.target.value)}
-                  className="w-full h-36 bg-black/60 border border-white/10 rounded-xl p-3.5 font-mono text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/60 resize-none transition-all shadow-inner"
+                  className="w-full min-h-[120px] bg-black/60 border border-white/10 rounded-xl p-4 font-mono text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400/60 focus:bg-white/[0.02] resize-none transition-all shadow-inner"
                   placeholder="Type your project parameters, timeframe, or contact link here..."
                   required
                 />
@@ -861,7 +849,7 @@ export default function App() {
                 <button
                   type="submit"
                   disabled={contactStatus === 'shipping' || !contactMessage.trim()}
-                  className="px-6 py-2.5 bg-gradient-to-r from-violet-600 via-cyan-500 to-cyan-400 text-white text-xs font-mono font-bold uppercase rounded-xl shadow-md hover:shadow-cyan-500/30 disabled:opacity-50 transition-all flex items-center gap-2 cursor-pointer hover:scale-[1.02]"
+                  className="w-full sm:w-auto justify-center px-8 py-3.5 bg-gradient-to-r from-violet-600 via-cyan-500 to-cyan-400 text-white text-sm font-sans font-bold uppercase rounded-xl shadow-md shadow-cyan-950/40 hover:shadow-cyan-500/30 disabled:opacity-50 transition-all flex items-center gap-2 cursor-pointer hover:scale-[1.02]"
                 >
                   {contactStatus === 'shipping' ? (
                     <>
@@ -922,7 +910,7 @@ export default function App() {
       </main>
 
       {/* SYSTEM FOOTER */}
-      <footer className="relative z-10 border-t border-white/10 py-8 px-4 sm:px-12 liquid-glass-dark !border-x-0 !border-b-0 !border-t !rounded-none mt-24 sm:mt-36 ">
+      <footer className="relative z-10 border-t border-white/10 py-8 px-4 sm:px-12 liquid-glass-dark !border-x-0 !border-b-0 !border-t !rounded-none mt-16 sm:mt-36">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs text-gray-400 text-center md:text-left">
           
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5">
@@ -937,11 +925,7 @@ export default function App() {
         </div>
       </footer>
 
-      <MobileBottomDock 
-        onNavigate={(id, label) => {
-          handleSectionChange(id);
-        }}
-      />
+      
 
       {/* Sleek scroll buffer indicator */}
       <div className="fixed bottom-0 right-0 p-8 flex flex-col items-end pointer-events-none z-40 hidden md:flex">
@@ -952,5 +936,6 @@ export default function App() {
       </div>
 
     </div>
+    </React.Suspense>
   );
 }
