@@ -137,7 +137,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent text-[#f5f5f5] font-sans relative selection:bg-cyan-500/30 selection:text-white overflow-x-hidden pb-24">
+    <div className="min-h-screen bg-transparent text-[#f5f5f5] font-sans relative selection:bg-cyan-500/30 selection:text-white overflow-x-hidden pb-24 lg:pb-0">
       
       {/* Immersive cyber backgrounds & inputs */}
       <TubesCursor />
@@ -922,7 +922,7 @@ export default function App() {
       </main>
 
       {/* SYSTEM FOOTER */}
-      <footer className="relative z-10 border-t border-white/10 py-8 px-4 sm:px-12 liquid-glass-dark !border-x-0 !border-b-0 !border-t !rounded-none mt-24 sm:mt-36 mb-20 lg:mb-0">
+      <footer className="relative z-10 border-t border-white/10 py-8 px-4 sm:px-12 liquid-glass-dark !border-x-0 !border-b-0 !border-t !rounded-none mt-24 sm:mt-36 ">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-xs text-gray-400 text-center md:text-left">
           
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-2.5">
