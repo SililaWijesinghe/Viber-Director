@@ -3,13 +3,14 @@ import { Monitor, Smartphone, ExternalLink, RefreshCw, Eye } from 'lucide-react'
 import { motion } from 'motion/react';
 
 interface DeviceMockupProps {
+  mobileOnly?: boolean;
   url: string;
   name: string;
   accentColor: string;
 }
 
-export default function DeviceMockup({ url, name, accentColor }: DeviceMockupProps) {
-  const [activeTab, setActiveTab] = useState<'both' | 'desktop' | 'mobile'>('both');
+export default function DeviceMockup({ url, name, accentColor, mobileOnly }: DeviceMockupProps) {
+  const [activeTab, setActiveTab] = useState<'both' | 'desktop' | 'mobile'>(mobileOnly ? 'mobile' : 'both');
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
   const [connectLive, setConnectLive] = useState(true);
 

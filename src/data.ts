@@ -42,7 +42,7 @@ export const PROJECTS: Project[] = [
     name: 'Premier Digital',
     oneLiner: 'Sleek marketing dashboard tracking cross-channel campaigns in real-time.',
     description: 'A dark-mode tactical control center featuring dynamic charts, traffic funnel simulations, and granular analytic telemetry blocks.',
-    liveUrl: 'https://premier-digital.lovable.app',
+    liveUrl: 'https://premierdigital.lk',
     category: 'SaaS',
     stack: ['React', 'Tailwind CSS', 'Recharts', 'Vite', 'Cursor AI'],
     color: '#F43F5E', // neon rose
@@ -78,7 +78,7 @@ export const PROJECTS: Project[] = [
     name: 'BL Models Pvt Ltd',
     oneLiner: 'Elite modeling agency booking portal and active talent roster engine.',
     description: 'An immersive digital workspace showcasing model portfolios, dynamic composite cards, agency reservation managers, and client dashboards.',
-    liveUrl: 'https://bl-models-pvt-ltd.vercel.app',
+    liveUrl: 'https://blmodels.lk',
     category: 'SaaS',
     stack: ['React', 'Tailwind CSS', 'Vite', 'TypeScript', 'Motion'],
     color: '#EAB308', // amber yellow
@@ -97,6 +97,7 @@ export const PROJECTS: Project[] = [
     oneLiner: 'Avant-garde luxury apparel storefront with motion-activated galleries.',
     description: 'A highly immersive boutique storefront, using staggered canvas grid systems, high-speed product filters, and micro-animations.',
     liveUrl: 'https://nimorafashion.lovable.app',
+    mobileOnly: true,
     category: 'E-commerce',
     stack: ['React', 'Tailwind CSS', 'Vite', 'Lovable Engine', 'Motion'],
     color: '#EC4899', // pink magenta
@@ -125,6 +126,43 @@ export const PROJECTS: Project[] = [
       { label: 'Adherence Lift', value: '+65%' },
       { label: 'Active Trainees', value: '1.2K+' },
       { label: 'Daily Workouts', value: '8K+' }
+    ]
+  }
+,
+  {
+    id: 'ablero',
+    name: 'Ablero',
+    oneLiner: 'Advanced corporate infrastructure and digital presence.',
+    description: 'A robust and scalable business hub designed for Ablero, maximizing client conversion and detailing service pipelines.',
+    liveUrl: 'https://ablero.com',
+    category: 'SaaS',
+    stack: ['React', 'Next.js', 'Tailwind CSS', 'Vercel'],
+    color: '#3B82F6', // Blue
+    problem: 'Establishing a dominant digital authority while ensuring rapid global load times for corporate clients.',
+    detailedApproach: 'Implemented static site generation with edge caching and highly interactive micro-animations for brand authority.',
+    result: 'Increased B2B inquiries by 150% and achieved a perfect 100 Lighthouse performance score.',
+    stats: [
+      { label: 'Performance', value: '100/100' },
+      { label: 'Conversion', value: '+150%' },
+      { label: 'Global Latency', value: '<50ms' }
+    ]
+  },
+  {
+    id: 'sunx-laptop',
+    name: 'SunX Laptop',
+    oneLiner: 'High-performance e-commerce for premium computing hardware.',
+    description: 'A lightning-fast storefront for SunX Laptop, featuring advanced product filtering, dynamic inventory sync, and a seamless checkout experience.',
+    liveUrl: 'https://sunxlaptop.lk',
+    category: 'E-commerce',
+    stack: ['React', 'Tailwind CSS', 'Shopify API', 'Motion'],
+    color: '#F97316', // Orange
+    problem: 'Slow product discovery and clunky checkout processes were causing high cart abandonment rates.',
+    detailedApproach: 'Built a custom headless e-commerce frontend with instant search, optimistic UI updates, and a streamlined one-page checkout.',
+    result: 'Reduced cart abandonment by 40% and doubled the average session duration.',
+    stats: [
+      { label: 'Cart Abandonment', value: '-40%' },
+      { label: 'Session Time', value: '+100%' },
+      { label: 'Checkout Speed', value: '<2s' }
     ]
   }
 ];

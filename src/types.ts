@@ -10,6 +10,7 @@ export interface Project {
   mobileImage?: string;  // fallback
   color: string; // e.g. '#7C3AED' or '#22D3EE'
   detailedApproach: string;
+  mobileOnly?: boolean;
   problem: string;
   result: string;
   stats: { label: string; value: string }[];

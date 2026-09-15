@@ -18,7 +18,8 @@ import {
   BookOpen,
   Volume2,
   VolumeX,
-  RefreshCw
+  RefreshCw,
+  ChevronDown
 } from 'lucide-react';
 
 import { PROJECTS } from './data';
@@ -28,6 +29,7 @@ import { speak, VOICE_LINES } from './lib/speech';
 // Custom sub-components
 import BootSequence from './components/BootSequence';
 import { VortexDemoSecond } from "./components/VortexDemoSecond";
+import AnimatedRays from './components/AnimatedRays';
 import DeviceMockup from './components/DeviceMockup';
 import CustomCursor from './components/CustomCursor';
 import ProgressRail from './components/ProgressRail';
@@ -44,6 +46,7 @@ export default function App() {
   const [currentTime, setCurrentTime] = useState('');
   const [toasts, setToasts] = useState<[]>([]);
   const [activeCategory, setActiveCategory] = useState<'All' | 'Web App' | 'SaaS' | 'E-commerce'>('All');
+  const [visibleCount, setVisibleCount] = useState(4);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
   // Interactive Prompt Directive Simulator in Hero
@@ -117,7 +120,7 @@ export default function App() {
   };
 
   // Filter project cards with spring animations
-  const filteredProjects = PROJECTS.filter(p => {
+  const filteredProjects = [...PROJECTS].reverse().filter(p => {
     if (activeCategory === 'All') return true;
     return p.category === activeCategory;
   });
@@ -134,12 +137,14 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-[#05050a] text-[#f5f5f5] font-sans relative selection:bg-cyan-500/30 selection:text-white overflow-x-hidden pb-24">
+    <div className="min-h-screen bg-transparent text-[#f5f5f5] font-sans relative selection:bg-cyan-500/30 selection:text-white overflow-x-hidden pb-24">
       
       {/* Immersive cyber backgrounds & inputs */}
       <TubesCursor />
       <WebGLShader className="opacity-40" />
       <VortexDemoSecond />
+      <div className="fixed inset-0 pointer-events-none opacity-20 bg-sleek-grid z-[-40]" />
+      <div className="fixed inset-0 pointer-events-none opacity-5 bg-sleek-scanlines z-[-40]" />
       <CustomCursor />
       
       {/* Side Viewport Navigation / Gamified Tracker */}
@@ -243,6 +248,7 @@ export default function App() {
         
         {/* 1. HERO SECTION (Desktop Dual-Column Interactive Cyber Suite) */}
         <section id="hero" className="min-h-0 sm:min-h-[75vh] flex flex-col justify-center relative overflow-hidden rounded-3xl sm:rounded-3xl p-5 sm:p-10 md:p-12 lg:p-16 liquid-glass-dark ">
+          <AnimatedRays className="absolute inset-0 -z-10 pointer-events-none opacity-85" />
           {/* iPhone Glass Specular Highlight & Radial Shine Overlay */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
           <div className="absolute top-[1px] left-4 sm:left-8 right-4 sm:right-8 h-[0.5px] bg-white/20 rounded-full pointer-events-none" />
@@ -449,15 +455,15 @@ export default function App() {
 
           {/* Bento-Grid Project System */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10" id="projects-bento-grid">
-            {filteredProjects.map((proj, idx) => {
+            {filteredProjects.slice(0, visibleCount).map((proj, idx) => {
               const isExpanded = selectedProject?.id === proj.id;
 
               return (
                 <motion.div
                   key={proj.id}
                   layout
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ type: 'spring', stiffness: 100, damping: 15 }}
                   className="liquid-glass-dark rounded-3xl p-7 lg:p-8 group hover:border-cyan-400/50 hover:bg-white/[0.05] transition-all flex flex-col justify-between space-y-6 relative overflow-hidden "
@@ -476,7 +482,7 @@ export default function App() {
 
                   {/* 1. Device Mockup Showcase Frame (Dual Screen, Desktop, and Mobile preview) */}
                   <div className="relative z-10">
-                    <DeviceMockup url={proj.liveUrl} name={proj.name} accentColor={proj.color} />
+                    <DeviceMockup url={proj.liveUrl} name={proj.name} accentColor={proj.color} mobileOnly={proj.mobileOnly} />
                   </div>
 
                   {/* 2. Text Details: Title, Description, and tags */}
@@ -583,6 +589,18 @@ export default function App() {
               );
             })}
           </div>
+
+          {filteredProjects.length > visibleCount && (
+            <div className="flex justify-center mt-12 w-full">
+              <button
+                onClick={() => setVisibleCount(prev => prev + 4)}
+                className="px-8 py-3 bg-transparent border border-cyan-500/30 hover:border-cyan-400 rounded-xl text-cyan-400 hover:text-white transition-all font-mono font-semibold uppercase tracking-widest flex items-center gap-2 group shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)] hover:shadow-[0_0_25px_-2px_rgba(6,182,212,0.5)]"
+              >
+                <span>Load More</span>
+                <ChevronDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+              </button>
+            </div>
+          )}
 
           {/* Social Proof Infinite Testimonial & Marquee */}
           <div className="pt-10">
